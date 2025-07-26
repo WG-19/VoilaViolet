@@ -1,10 +1,10 @@
 // Contact Information
 export const CONTACT = {
-  EMAIL: process.env.REACT_APP_CONTACT_EMAIL || 'Voilaviolet@outlook.com',
-  PHONE: process.env.REACT_APP_CONTACT_PHONE || '+263777978762',
-  WHATSAPP: `https://wa.me/${process.env.REACT_APP_WHATSAPP_NUMBER || '263777978762'}`,
-  WHATSAPP_DISPLAY: process.env.REACT_APP_CONTACT_PHONE ? 
-    process.env.REACT_APP_CONTACT_PHONE.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3') : 
+  EMAIL: import.meta.env.VITE_CONTACT_EMAIL || 'Voilaviolet@outlook.com',
+  PHONE: import.meta.env.VITE_CONTACT_PHONE || '+263777978762',
+  WHATSAPP: `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || '263777978762'}`,
+  WHATSAPP_DISPLAY: import.meta.env.VITE_CONTACT_PHONE ? 
+    import.meta.env.VITE_CONTACT_PHONE.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3') : 
     '+263 77 797 8762'
 };
 
