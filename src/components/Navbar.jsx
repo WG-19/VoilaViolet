@@ -28,8 +28,10 @@ const Navbar = () => {
     setIsOpen(false);
   }, [location]);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
+  const toggleMenu = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsOpen(prev => !prev);
   };
 
   const navLinks = [
@@ -94,6 +96,7 @@ const Navbar = () => {
                 className="text-white hover:text-gray-200 p-2 focus:outline-none"
                 aria-label="Toggle menu"
                 aria-expanded={isOpen}
+                onMouseDown={e => e.stopPropagation()}
               >
                 <i className={`las ${isOpen ? 'la-times' : 'la-bars'} text-2xl transition-transform duration-300`}></i>
               </button>

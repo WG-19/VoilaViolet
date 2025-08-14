@@ -109,10 +109,11 @@ const Cart = () => {
                         </div>
                         <button 
                           onClick={() => removeItem(item.id)}
-                          className="ml-auto text-red-500 hover:text-red-700"
+                          className="ml-auto px-3 py-1.5 sm:py-1 rounded-md border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 transition-colors flex items-center justify-center"
+                          aria-label="Remove item"
                         >
-                          <i className="las la-trash"></i>
-                          <span className="ml-1">Remove</span>
+                          <i className="las la-trash text-sm sm:text-base"></i>
+                          <span className="ml-1.5 text-sm sm:text-base">Remove</span>
                         </button>
                       </div>
                     </div>
