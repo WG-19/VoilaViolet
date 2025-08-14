@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -6,7 +6,27 @@ import 'slick-carousel/slick/slick-theme.css';
 import { FaTiktok } from 'react-icons/fa';
 
 const Home = () => {
-  const settings = {
+  const [isPortrait, setIsPortrait] = useState(window.innerWidth < window.innerHeight);
+  const [hasPortraitImage, setHasPortraitImage] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPortrait(window.innerWidth < window.innerHeight);
+    };
+
+    // Check if portrait image exists
+    const img = new Image();
+    img.onload = () => setHasPortraitImage(true);
+    img.onerror = () => setHasPortraitImage(false);
+    img.src = '/images/background-portrait.jpeg';
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const carouselSettings = {
     dots: false,
     infinite: true,
     speed: 1000,
@@ -26,34 +46,53 @@ const Home = () => {
     '/images/background2.jpeg',
   ];
 
+  // Fallback to first carousel image if portrait image is not available
+  const portraitImage = hasPortraitImage ? '/images/background-portrait.jpeg' : backgroundImages[0];
+
   return (
     <div className="min-h-screen w-full">
-      {/* Background Carousel */}
-      <div className="fixed top-0 left-0 w-full h-screen -z-10">
-        <Slider {...settings}>
-          {backgroundImages.map((image, index) => (
-            <div key={index} className="w-full h-screen">
-              <div 
-                className="w-full h-full bg-cover bg-center"
-                style={{ 
-                  backgroundImage: `url(${image})`,
-                  backgroundPosition: 'center',
-                  backgroundSize: 'cover',
-                  backgroundRepeat: 'no-repeat'
-                }}
-              >
-                <div className="absolute inset-0 bg-black/10"></div>
+      {/* Background - Conditional Rendering */}
+      <div className="fixed top-0 left-0 w-full h-screen -z-10 bg-black">
+        {isPortrait ? (
+          // Single image for portrait
+          <div 
+            className="w-full h-full bg-cover bg-center"
+            style={{ 
+              backgroundImage: `url(${portraitImage})`,
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat'
+            }}
+          >
+            <div className="absolute inset-0 bg-black/10"></div>
+          </div>
+        ) : (
+          // Carousel for landscape
+          <Slider {...carouselSettings}>
+            {backgroundImages.map((image, index) => (
+              <div key={index} className="w-full h-screen">
+                <div 
+                  className="w-full h-full bg-cover bg-center"
+                  style={{ 
+                    backgroundImage: `url(${image})`,
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat'
+                  }}
+                >
+                  <div className="absolute inset-0 bg-black/10"></div>
+                </div>
               </div>
-            </div>
-          ))}
-        </Slider>
+            ))}
+          </Slider>
+        )}
       </div>
       
       {/* Shop Now Button */}
       <div className="fixed bottom-[calc(5rem+30px)] left-0 right-0 flex justify-center">
         <Link 
           to="/products"
-          className="bg-black/30 backdrop-blur-sm text-white hover:text-gray-200 font-semibold py-4 px-32 min-w-[480px] text-center rounded-full text-xl md:text-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 border-2 border-white/30 hover:border-white/50"
+          className="bg-black/30 backdrop-blur-sm text-white hover:text-gray-200 font-semibold py-4 px-8 sm:px-32 text-center rounded-full text-base sm:text-xl md:text-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 border-2 border-white/30 hover:border-white/50 w-auto sm:min-w-[480px]"
           aria-label="Shop our collection of luxury hair products"
         >
           Shop Now
