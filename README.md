@@ -83,6 +83,3 @@ This project can be easily deployed to:
 
 This project is licensed under the MIT License.
 
-## 📧 Contact
-
-For inquiries, please contact voilaviolet@example.com
